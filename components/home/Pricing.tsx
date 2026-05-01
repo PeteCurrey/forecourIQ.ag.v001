@@ -2,180 +2,160 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import AnimatedCounter from "../ui/AnimatedCounter";
+import { Check, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const plans = [
   {
     name: "Starter",
-    price: 149,
-    tagline: "Perfect for boutique dealers",
+    tagline: "Essential digital presence",
+    monthlyPrice: 149,
+    annualPrice: 124,
+    description: "Perfect for dealers with up to 15 vehicles.",
     features: [
-      { text: "Bespoke Next.js 15 Website", included: true },
-      { text: "Up to 25 Vehicles", included: true },
-      { text: "Lead Management CRM", included: true },
-      { text: "AutoTrader Feed Sync", included: true },
-      { text: "AI Market Insights", included: false },
-      { text: "FCA Compliance Audit Trail", included: false },
-      { text: "AI Buying Command Centre", included: false },
+      { name: "Next.js 15 Website", included: true },
+      { name: "Up to 15 Vehicles", included: true },
+      { name: "Basic DMS", included: true },
+      { name: "AutoTrader Feed", included: true },
+      { name: "AI Buy Signals", included: false },
+      { name: "FCA Compliance", included: false },
     ],
   },
   {
     name: "Professional",
-    price: 299,
-    tagline: "The dealer standard",
+    tagline: "The industry standard",
+    monthlyPrice: 299,
+    annualPrice: 249,
     popular: true,
+    description: "Complete intelligence for growing dealerships.",
     features: [
-      { text: "Bespoke Next.js 15 Website", included: true },
-      { text: "Up to 100 Vehicles", included: true },
-      { text: "Lead Management CRM", included: true },
-      { text: "All Portal Sync (AT, eBay, CG)", included: true },
-      { text: "AI Market Insights", included: true },
-      { text: "FCA Compliance Audit Trail", included: true },
-      { text: "AI Buying Command Centre", included: false },
+      { name: "Next.js 15 Website", included: true },
+      { name: "Up to 100 Vehicles", included: true },
+      { name: "Advanced DMS", included: true },
+      { name: "All Portal Sync", included: true },
+      { name: "AI Buy Signals", included: true },
+      { name: "FCA Compliance", included: true },
     ],
   },
   {
     name: "Elite",
-    price: 499,
     tagline: "Maximum intelligence",
+    monthlyPrice: 499,
+    annualPrice: 415,
+    description: "Unlimited scale for multi-site groups.",
     features: [
-      { text: "Bespoke Next.js 15 Website", included: true },
-      { text: "Unlimited Vehicles", included: true },
-      { text: "Lead Management CRM", included: true },
-      { text: "All Portal Sync", included: true },
-      { text: "AI Market Insights", included: true },
-      { text: "FCA Compliance Audit Trail", included: true },
-      { text: "AI Buying Command Centre", included: true },
+      { name: "Next.js 15 Website", included: true },
+      { name: "Unlimited Vehicles", included: true },
+      { name: "Enterprise DMS", included: true },
+      { name: "All Portal Sync", included: true },
+      { name: "Full AI Command Centre", included: true },
+      { name: "Multi-site Support", included: true },
     ],
   },
 ];
 
 export default function Pricing() {
-  const [isAnnual, setIsAnnual] = useState(false);
+  const [billingCycle, setBillingCycle] = useState<"monthly" | "annual">("monthly");
 
   return (
-    <section id="pricing" className="py-32 bg-[#080E1D] relative overflow-hidden">
-      {/* Background decorative glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-green-data/5 blur-[120px] rounded-full pointer-events-none" />
-
-      <div className="container-wide relative z-10">
-        {/* Heading */}
+    <section id="pricing" className="bg-[#0D1B3E] py-32">
+      <div className="container-wide">
         <div className="text-center mb-16">
-          <span className="inline-block text-green-data font-bold text-xs tracking-[0.2em] uppercase mb-4">
-            Pricing
+          <span className="text-[#00D4AA] text-xs font-semibold tracking-[0.2em] uppercase mb-4 block">
+            Investment
           </span>
-          <h2 className="text-4xl md:text-5xl text-white mb-8">
-            Simple, Transparent Pricing
+          <h2 className="font-syne text-4xl md:text-5xl font-bold text-white mb-10">
+            Transparent Pricing.
           </h2>
 
-          {/* Annual toggle */}
+          {/* Toggle */}
           <div className="flex items-center justify-center gap-4">
-            <span className={`text-sm font-bold transition-colors ${!isAnnual ? "text-white" : "text-slate-brand"}`}>
+            <span className={cn("text-sm font-medium transition-colors", billingCycle === "monthly" ? "text-white" : "text-[#8896AB]")}>
               Monthly
             </span>
             <button
-              onClick={() => setIsAnnual(!isAnnual)}
-              className="relative w-14 h-7 rounded-full bg-white/10 border border-white/10 transition-colors hover:border-green-data/30"
-              aria-label="Toggle annual billing"
+              onClick={() => setBillingCycle(billingCycle === "monthly" ? "annual" : "monthly")}
+              className="relative w-14 h-7 bg-[#0F1729] border border-[#1E2A40] rounded-full transition-colors focus:outline-none"
             >
               <div
-                className={`absolute top-1 w-5 h-5 bg-green-data rounded-full transition-all duration-300 shadow-[0_0_10px_rgba(0,212,170,0.5)] ${
-                  isAnnual ? "left-8" : "left-1"
-                }`}
+                className={cn(
+                  "absolute top-1 left-1 w-5 h-5 bg-[#00D4AA] rounded-full transition-transform duration-300",
+                  billingCycle === "annual" ? "translate-x-7" : "translate-x-0"
+                )}
               />
             </button>
-            <span className={`text-sm font-bold transition-colors ${isAnnual ? "text-white" : "text-slate-brand"}`}>
-              Annually{" "}
-              <span className="text-green-data">(Save 2 Months)</span>
+            <span className={cn("text-sm font-medium transition-colors", billingCycle === "annual" ? "text-white" : "text-[#8896AB]")}>
+              Annually <span className="text-[#00D4AA] ml-1.5 font-bold">(-15%)</span>
             </span>
           </div>
         </div>
 
-        {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
           {plans.map((plan) => (
             <div
               key={plan.name}
-              className={`relative flex flex-col rounded-2xl border p-8 transition-all duration-300 ${
+              className={cn(
+                "relative flex flex-col bg-[#0F1729] border rounded-2xl p-8 transition-all duration-500",
                 plan.popular
-                  ? "border-green-data/50 bg-white/5 shadow-[0_0_60px_rgba(0,212,170,0.1)] scale-105"
-                  : "border-white/10 bg-white/3 hover:border-white/20"
-              }`}
+                  ? "border-[#00D4AA] shadow-[0_0_40_rgba(0,212,170,0.15)] scale-[1.02] z-10"
+                  : "border-[#1E2A40]"
+              )}
             >
-              {/* Popular badge */}
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-green-data text-navy text-[10px] font-black uppercase tracking-widest px-5 py-1.5 rounded-full shadow-lg">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#00D4AA] text-[#0D1B3E] font-bold text-[10px] uppercase tracking-widest px-4 py-1.5 rounded-full">
                   Most Popular
                 </div>
               )}
 
-              {/* Plan name + tagline */}
               <div className="mb-8">
-                <h3 className="text-xl font-syne font-bold text-white mb-1">
-                  {plan.name}
-                </h3>
-                <p className="text-slate-brand text-sm">{plan.tagline}</p>
+                <h3 className="font-syne text-xl font-bold text-white mb-1">{plan.name}</h3>
+                <p className="text-[#8896AB] text-sm">{plan.tagline}</p>
               </div>
 
-              {/* Price */}
-              <div className="mb-8">
-                <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-bold text-white">£</span>
-                  <span className="text-6xl font-bold tracking-tight text-white font-mono">
-                    <AnimatedCounter value={isAnnual ? Math.floor((plan.price * 10) / 12) : plan.price} />
-                  </span>
-                  <span className="text-slate-brand font-medium">/mo</span>
+              <div className="mb-10 flex items-start">
+                <span className="text-2xl align-top mt-3 text-white font-syne">£</span>
+                <span className="font-syne text-6xl font-black text-white">
+                  {billingCycle === "monthly" ? plan.monthlyPrice : plan.annualPrice}
+                </span>
+                <div className="ml-2 mt-auto pb-2">
+                  <p className="text-[#8896AB] text-sm leading-tight">/mo</p>
+                  {billingCycle === "annual" && (
+                     <p className="text-[#00D4AA] text-[10px] font-bold uppercase tracking-wider">Billed Annually</p>
+                  )}
                 </div>
-                {isAnnual && (
-                  <p className="text-green-data text-xs font-bold mt-2">
-                    Billed annually — £{(plan.price * 10).toLocaleString()}/yr
-                  </p>
-                )}
               </div>
 
-              {/* Features */}
               <ul className="space-y-4 mb-10 flex-1">
                 {plan.features.map((feature, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm">
+                  <li key={i} className="flex items-center text-sm">
                     {feature.included ? (
-                      <svg
-                        className="w-5 h-5 text-green-data flex-shrink-0 mt-0.5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                      </svg>
+                      <Check className="w-4 h-4 text-[#00D4AA] mr-3 flex-shrink-0" />
                     ) : (
-                      <div className="w-5 h-5 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <div className="w-4 h-[2px] bg-white/15 rounded" />
+                      <div className="w-4 h-4 mr-3 flex items-center justify-center">
+                         <div className="w-4 h-[1px] bg-[#1E2A40]" />
                       </div>
                     )}
-                    <span className={feature.included ? "text-white/80" : "text-white/25"}>
-                      {feature.text}
+                    <span className={feature.included ? "text-white/80" : "text-white/20"}>
+                      {feature.name}
                     </span>
                   </li>
                 ))}
               </ul>
 
-              {/* CTA */}
               <Link
                 href="/demo"
-                className={`w-full py-4 text-center font-bold rounded-xl transition-all text-sm ${
+                className={cn(
+                  "w-full py-4 rounded-xl font-bold text-center transition-all duration-300",
                   plan.popular
-                    ? "bg-green-data text-navy hover:scale-[1.02] shadow-[0_0_20px_rgba(0,212,170,0.3)]"
-                    : "bg-white/5 text-white border border-white/10 hover:bg-white/10"
-                }`}
+                    ? "bg-[#00D4AA] text-[#0D1B3E] hover:bg-[#00BF9A]"
+                    : "bg-white/5 border border-[#1E2A40] text-white hover:bg-white/10"
+                )}
               >
-                Get Started Free
+                Select {plan.name}
               </Link>
             </div>
           ))}
         </div>
-
-        <p className="text-center mt-12 text-slate-brand text-sm">
-          All plans include a 14-day free trial. No credit card required. Cancel anytime.
-        </p>
       </div>
     </section>
   );

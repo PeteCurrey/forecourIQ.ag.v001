@@ -1,111 +1,99 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 const testimonials = [
   {
-    quote:
-      "We went from 45 days average to sell down to 28 days in the first quarter. The AI buying list is the most useful tool I've used in 15 years of trading.",
+    metric: "-38%",
+    label: "Days to Sell",
+    quote: "Since deploying ForecourIQ, our stock turn has accelerated beyond belief. We're buying smarter and selling faster than ever before.",
     author: "James Mellor",
-    title: "Director",
-    company: "Peak Cars Ltd",
-    location: "Derbyshire",
-    metric: "−38%",
-    metricLabel: "Days to Sell",
+    role: "Director",
+    initials: "JM",
   },
   {
-    quote:
-      "The website alone was worth it. We're now ranking for half a dozen local search terms we never showed up for before. Enquiries doubled in 90 days.",
+    metric: "2.4x",
+    label: "Lead ROI",
+    quote: "The cinematic website built our brand authority overnight. We're now converting leads that used to just bounce to the bigger portals.",
     author: "Sarah Chen",
-    title: "Managing Director",
-    company: "Apex Motor Group",
-    location: "Sheffield",
-    metric: "2×",
-    metricLabel: "Enquiries",
+    role: "Operations Manager",
+    initials: "SC",
   },
   {
-    quote:
-      "Setup was two days. The team migrated all our stock data and we were live on AutoTrader through the new system the same week. Absolutely seamless.",
-    author: "Ravi Patel",
-    title: "Owner",
-    company: "First Choice Cars",
-    location: "Leicester",
-    metric: "48h",
-    metricLabel: "Go Live",
+    metric: "+£420",
+    label: "Avg Margin / Unit",
+    quote: "The Buying Command Centre is our secret weapon. We're identifying undervalued auction stock that the other dealers are simply missing.",
+    author: "Robert Hughes",
+    role: "Owner",
+    initials: "RH",
   },
 ];
 
-export default function Testimonials() {
-  return (
-    <section className="py-32 bg-navy relative overflow-hidden">
-      {/* Background texture */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#080E1D] via-navy to-navy pointer-events-none" />
-      <div
-        className="absolute inset-0 opacity-[0.025] pointer-events-none"
-        style={{
-          backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)`,
-          backgroundSize: "40px 40px",
-        }}
-      />
+const stats = [
+  { value: "100+", label: "Active Dealers" },
+  { value: "£1.2M", label: "Margin Generated" },
+  { value: "48h", label: "Setup Time" },
+  { value: "99.9%", label: "Uptime" },
+];
 
-      <div className="container-wide relative z-10">
-        {/* Section header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-          <div>
-            <div className="inline-flex items-center gap-3 mb-6">
-              <div className="h-px w-8 bg-green-data" />
-              <span className="text-green-data font-bold text-[11px] tracking-[0.25em] uppercase">
-                Dealer Stories
-              </span>
-            </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl text-white max-w-xl leading-[1.1]">
-              Built for Dealers,<br />Proven in the Field.
-            </h2>
-          </div>
-          <div className="flex gap-1.5 mb-2">
-            {[...Array(5)].map((_, i) => (
-              <svg key={i} className="w-5 h-5 text-green-data fill-current" viewBox="0 0 24 24">
-                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-              </svg>
-            ))}
-          </div>
+export default function Testimonials() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    const ctx = gsap.context(() => {
+      gsap.to(".testimonial-card", {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+        },
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "power3.out",
+      });
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section ref={sectionRef} className="bg-[#060D1F] py-32 overflow-hidden">
+      <div className="container-wide">
+        <div className="text-center mb-20">
+          <span className="text-[#00D4AA] text-xs font-semibold tracking-[0.2em] uppercase mb-4 block">
+            Dealer Stories
+          </span>
+          <h2 className="font-syne text-4xl md:text-5xl font-bold text-white">
+            Proven on the Forecourt.
+          </h2>
         </div>
 
-        {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-32">
           {testimonials.map((t, i) => (
             <div
               key={i}
-              className="group relative flex flex-col bg-white/4 border border-white/10 rounded-2xl p-8 hover:border-green-data/25 hover:bg-white/6 transition-all duration-500"
+              className="testimonial-card opacity-0 bg-[#0F1729] border border-[#1E2A40] rounded-2xl p-8 transition-all hover:border-[#00D4AA]/20"
             >
-              {/* Metric badge */}
-              <div className="absolute top-6 right-6 text-right">
-                <p className="font-syne font-bold text-2xl text-green-data leading-none">{t.metric}</p>
-                <p className="text-white/30 text-[9px] uppercase tracking-widest font-bold mt-0.5">
-                  {t.metricLabel}
-                </p>
+              <div className="bg-[#00D4AA]/10 text-[#00D4AA] font-syne font-black text-2xl px-4 py-2 rounded-xl mb-4 inline-block">
+                {t.metric}
+                <span className="block text-[10px] font-bold uppercase tracking-wider -mt-1 opacity-60">
+                  {t.label}
+                </span>
               </div>
-
-              {/* Quote mark */}
-              <div className="mb-5">
-                <svg className="w-8 h-8 text-green-data/20 fill-current" viewBox="0 0 32 32">
-                  <path d="M10 8v8h6v8h-8v-8H4V8h6zm14 0v8h6v8h-8v-8h-4V8h6z" />
-                </svg>
-              </div>
-
-              {/* Quote */}
-              <p className="text-white/80 text-[15px] leading-relaxed flex-1 mb-8 italic">
+              <p className="text-white/80 text-sm leading-relaxed italic mb-8">
                 "{t.quote}"
               </p>
-
-              {/* Attribution */}
-              <div className="border-t border-white/8 pt-6 flex items-center gap-4">
-                {/* Avatar initial */}
-                <div className="w-10 h-10 rounded-full bg-green-data/10 border border-green-data/20 flex items-center justify-center flex-shrink-0">
-                  <span className="text-green-data font-bold text-sm font-syne">
-                    {t.author.charAt(0)}
-                  </span>
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full bg-[#00D4AA]/20 flex items-center justify-center text-[#00D4AA] font-bold text-sm">
+                  {t.initials}
                 </div>
                 <div>
-                  <p className="font-syne font-bold text-white text-sm">{t.author}</p>
-                  <p className="text-slate-brand text-xs">
-                    {t.title} · {t.company}, {t.location}
+                  <p className="text-white font-bold text-sm">{t.author}</p>
+                  <p className="text-[#8896AB] text-[10px] uppercase tracking-wider">
+                    {t.role}
                   </p>
                 </div>
               </div>
@@ -113,17 +101,16 @@ export default function Testimonials() {
           ))}
         </div>
 
-        {/* Bottom trust bar */}
-        <div className="mt-16 pt-12 border-t border-white/8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          {[
-            { val: "100+", label: "Active UK Dealerships" },
-            { val: "48h", label: "Average Setup Time" },
-            { val: "£3.8k", label: "Avg Monthly Margin Gain" },
-            { val: "★★★★★", label: "Customer Rating" },
-          ].map((stat) => (
-            <div key={stat.val}>
-              <p className="font-syne font-bold text-2xl md:text-3xl text-white mb-1">{stat.val}</p>
-              <p className="text-slate-brand text-xs uppercase tracking-widest font-bold">{stat.label}</p>
+        {/* Stats Bar */}
+        <div className="bg-[#0A1228] border-y border-[#1E2A40] py-12 -mx-6 md:-mx-10 lg:-mx-16 px-6 md:px-10 lg:px-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          {stats.map((stat, i) => (
+            <div key={i}>
+              <p className="font-syne text-4xl font-black text-[#00D4AA]">
+                {stat.value}
+              </p>
+              <p className="text-[#8896AB] text-sm mt-1 uppercase tracking-widest font-medium">
+                {stat.label}
+              </p>
             </div>
           ))}
         </div>

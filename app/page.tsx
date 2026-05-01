@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="bg-navy">
+    <div className="bg-navy min-h-screen">
       <Hero />
       <SocialProofBar />
       <ProblemSection />

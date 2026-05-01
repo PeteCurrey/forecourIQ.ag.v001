@@ -1,80 +1,76 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const problems = [
   {
-    num: "01",
-    title: "Your website was built in 2018 and looks like it.",
-    text: "Buyers judge your dealership in 3 seconds. If your site loads slowly, looks dated, or doesn't surface your stock clearly on Google, they're gone to the dealer two miles away.",
+    number: "01",
+    title: "The Spreadsheet Trap",
+    body: "Still managing your inventory on Excel? You're losing hours every week in manual data entry and portal syncing that should be automated.",
   },
   {
-    num: "02",
-    title: "Your DMS is three spreadsheets and a WhatsApp group.",
-    text: "Managing stock, leads, and compliance across disconnected tools costs you hours every week and deals every month.",
+    number: "02",
+    title: "Blind Buying",
+    body: "Buying from auctions without real-time margin intelligence is gambling. We give you the exact ROI and days-to-sell estimate before you bid.",
   },
   {
-    num: "03",
-    title: "You're buying on instinct. Your competitors are buying on data.",
-    text: "Without live market intelligence, you're guessing what to stock. ForecourIQ tells you exactly what the local market wants and what it will pay.",
+    number: "03",
+    title: "Portal Dependence",
+    body: "Paying thousands for leads while your own website looks like it's from 2010. Convert your own traffic with a cinematic, high-conversion web presence.",
   },
 ];
 
 export default function ProblemSection() {
-  const container = useRef(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
-  useGSAP(() => {
-    gsap.from(".problem-card", {
-      scrollTrigger: {
-        trigger: container.current,
-        start: "top 80%",
-        end: "bottom 30%",
-        scrub: 1,
-      },
-      y: 80,
-      opacity: 0,
-      stagger: 0.15,
-      ease: "power2.out",
-    });
-  }, { scope: container });
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    const ctx = gsap.context(() => {
+      gsap.to(".problem-card", {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+        },
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "power3.out",
+      });
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section ref={container} className="py-32 bg-navy/50 relative overflow-hidden">
-      {/* Subtle grid texture */}
-      <div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: `repeating-linear-gradient(0deg, #fff 0, #fff 1px, transparent 1px, transparent 80px), repeating-linear-gradient(90deg, #fff 0, #fff 1px, transparent 1px, transparent 80px)`,
-        }}
-      />
-
-      <div className="container-wide relative z-10">
-        <div className="text-center mb-20">
-          <span className="inline-block text-green-data font-bold text-xs tracking-[0.2em] uppercase mb-4">
-            The Reality for Most Dealers
+    <section ref={sectionRef} className="bg-[#060D1F] py-32 overflow-hidden">
+      <div className="container-wide">
+        <div className="max-w-3xl mb-20">
+          <span className="text-[#00D4AA] text-xs font-semibold tracking-[0.2em] uppercase mb-4 block">
+            The Status Quo
           </span>
-          <h2 className="text-4xl md:text-5xl text-white max-w-3xl mx-auto leading-[1.1]">
-            Three problems killing your margin right now.
+          <h2 className="font-syne text-4xl md:text-5xl font-bold text-white leading-tight">
+            Independent Dealers are being <br />
+            suffocated by outdated tools.
           </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {problems.map((p, i) => (
-            <div key={i} className="problem-card relative group">
-              {/* Large background number */}
-              <div className="font-syne text-[120px] leading-none font-black text-green-data/8 absolute -top-8 -left-4 select-none z-0 pointer-events-none">
-                {p.num}
-              </div>
-              {/* Card */}
-              <div className="relative z-10 bg-white/5 border border-white/10 rounded-2xl p-8 h-full hover:border-green-data/30 hover:bg-white/8 transition-all duration-500 group-hover:shadow-[0_0_40px_rgba(0,212,170,0.05)]">
-                <div className="w-8 h-0.5 bg-green-data mb-6" />
-                <h3 className="text-xl md:text-2xl mb-5 text-white font-syne font-bold leading-snug">
-                  {p.title}
+          {problems.map((problem, i) => (
+            <div
+              key={i}
+              className="problem-card opacity-0 bg-[#0F1729] border border-[#1E2A40] rounded-2xl p-8 relative overflow-hidden group hover:border-[#00D4AA]/20 transition-colors"
+            >
+              <span className="font-syne text-[120px] font-black text-white/[0.04] absolute -top-8 -right-4 leading-none select-none group-hover:text-[#00D4AA]/[0.06] transition-colors">
+                {problem.number}
+              </span>
+              <div className="relative z-10">
+                <h3 className="font-syne text-xl font-bold text-white mb-3">
+                  {problem.title}
                 </h3>
-                <p className="text-slate-brand leading-relaxed text-[15px]">
-                  {p.text}
+                <p className="text-[#8896AB] text-sm leading-relaxed">
+                  {problem.body}
                 </p>
               </div>
             </div>

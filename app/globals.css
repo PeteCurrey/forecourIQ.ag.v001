@@ -3,112 +3,71 @@
 @tailwind utilities;
 
 :root {
-  --background: #0D1B3E;
-  --foreground: #ffffff;
+  --font-syne: 'Syne', sans-serif;
+  --font-inter: 'Inter', sans-serif;
+  --navy: #0D1B3E;
+  --navy-deep: #0A1228;
+  --green-data: #00D4AA;
+  --slate-brand: #8896AB;
 }
 
-@layer base {
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-  }
-
-  html {
-    scroll-behavior: auto; /* Lenis handles smooth scroll */
-  }
-
-  body {
-    @apply bg-navy text-white font-inter;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
-  }
-
-  ::selection {
-    @apply bg-green-data text-navy;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-syne font-bold tracking-tighter leading-[1.1];
-  }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@layer components {
-  /* ── Layout ── */
-  .container-wide {
-    @apply max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16;
-  }
-
-  .section-padding {
-    @apply py-24 md:py-32;
-  }
-
-  /* ── Glassmorphism ── */
-  .glass {
-    @apply bg-white/5 backdrop-blur-xl border border-white/10;
-  }
-
-  .glass-card {
-    @apply glass rounded-2xl overflow-hidden;
-  }
-
-  /* ── Buttons ── */
-  .btn-primary {
-    @apply relative overflow-hidden bg-green-data text-navy px-8 py-4 rounded-xl
-           font-bold text-sm tracking-wide transition-all duration-300
-           hover:scale-[1.03] active:scale-[0.98] inline-flex items-center
-           justify-center shadow-[0_0_24px_rgba(0,212,170,0.35)];
-  }
-
-  .btn-secondary {
-    @apply relative bg-white/5 border border-white/15 text-white px-8 py-4 rounded-xl
-           font-bold text-sm tracking-wide transition-all duration-300
-           hover:bg-white/10 hover:border-white/25 active:scale-[0.98]
-           inline-flex items-center justify-center backdrop-blur-md;
-  }
-
-  /* ── Typography utilities ── */
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-b from-white to-white/50;
-  }
-
-  /* ── DMS specific ── */
-  .dms-card {
-    @apply bg-dms-surface border border-dms-border rounded-2xl p-6;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
-/* ── Custom Scrollbar ── */
+body {
+  background-color: #0D1B3E;
+  color: #ffffff;
+  font-family: var(--font-inter), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Scrollbar styling */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0D1B3E;
+  background: #0A1228;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.08);
-  border-radius: 99px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 212, 170, 0.4);
+  background: #00D4AA;
+  border-radius: 3px;
 }
 
-/* ── Lenis smooth scroll ── */
-html.lenis,
-html.lenis body {
-  height: auto;
+/* Selection */
+::selection {
+  background: #00D4AA;
+  color: #0D1B3E;
 }
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-.lenis.lenis-stopped {
+
+/* Marquee containers */
+.marquee-wrapper {
   overflow: hidden;
+  width: 100%;
 }
-.lenis.lenis-scrolling iframe {
-  pointer-events: none;
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+.marquee-track-reverse {
+  display: flex;
+  width: max-content;
+  animation: marquee-reverse 30s linear infinite;
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes marquee-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
 }
