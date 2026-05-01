@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .container-wide {
+    @apply max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16;
+  }
+}
+
 :root {
   --font-syne: 'Syne', sans-serif;
   --font-inter: 'Inter', sans-serif;
