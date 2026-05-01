@@ -4,168 +4,244 @@ import { useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { ArrowRight } from "lucide-react";
 import ParticleField from "./ParticleField";
 
-export default function Hero() {
-  const container = useRef(null);
-  const titleRef = useRef(null);
-  const cardRef = useRef(null);
+const TABLE_DATA = [
+  {
+    vehicle: "BMW 320d M Sport",
+    year: "2021",
+    days: 14,
+    market: "£18,450",
+    ai: "£17,900",
+    action: "BUY",
+    hot: true,
+  },
+  {
+    vehicle: "Audi A3 S Line 2.0",
+    year: "2020",
+    days: 22,
+    market: "£21,200",
+    ai: "£20,800",
+    action: "HOLD",
+    hot: false,
+  },
+  {
+    vehicle: "Ford Puma ST-Line",
+    year: "2022",
+    days: 11,
+    market: "£19,100",
+    ai: "£18,500",
+    action: "BUY",
+    hot: false,
+  },
+  {
+    vehicle: "VW Golf GTI DSG",
+    year: "2021",
+    days: 18,
+    market: "£24,500",
+    ai: "£23,900",
+    action: "HOLD",
+    hot: false,
+  },
+];
 
-  useGSAP(() => {
-    const tl = gsap.timeline();
-    
-    // Split text animation logic
-    const titleLines = gsap.utils.toArray(".hero-title-line");
-    
-    tl.from(".hero-eyebrow", {
-      y: 20,
-      opacity: 0,
-      duration: 0.8,
-      ease: "power3.out",
-    })
-    .from(titleLines, {
-      y: 40,
-      opacity: 0,
-      duration: 1,
-      stagger: 0.1,
-      ease: "power4.out",
-    }, "-=0.6")
-    .from(".hero-subheading", {
-      y: 20,
-      opacity: 0,
-      duration: 0.8,
-      ease: "power3.out",
-    }, "-=0.8")
-    .from(".hero-ctas", {
-      y: 20,
-      opacity: 0,
-      duration: 0.8,
-      ease: "power3.out",
-    }, "-=0.6")
-    .from(".hero-stats", {
-      y: 20,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.1,
-      ease: "power3.out",
-    }, "-=0.6")
-    .from(cardRef.current, {
-      x: 100,
-      rotation: 5,
-      opacity: 0,
-      duration: 1.2,
-      ease: "power4.out",
-    }, "-=1.2");
-  }, { scope: container });
+export default function Hero() {
+  const containerRef = useRef<HTMLElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const tl = gsap.timeline({ delay: 0.1 });
+
+      tl.from(".hero-label", { y: 16, opacity: 0, duration: 0.7, ease: "power3.out" })
+        .from(".hero-line-1", { y: 48, opacity: 0, duration: 0.9, ease: "power4.out" }, "-=0.4")
+        .from(".hero-line-2", { y: 48, opacity: 0, duration: 0.9, ease: "power4.out" }, "-=0.7")
+        .from(".hero-line-3", { y: 48, opacity: 0, duration: 0.9, ease: "power4.out" }, "-=0.7")
+        .from(".hero-sub", { y: 20, opacity: 0, duration: 0.8, ease: "power3.out" }, "-=0.6")
+        .from(".hero-ctas", { y: 20, opacity: 0, duration: 0.7, ease: "power3.out" }, "-=0.5")
+        .from(".hero-pills", { y: 16, opacity: 0, duration: 0.6, ease: "power3.out" }, "-=0.4")
+        .from(
+          cardRef.current,
+          { x: 80, rotation: 3, opacity: 0, duration: 1.2, ease: "power4.out" },
+          "-=1.0"
+        );
+    },
+    { scope: containerRef }
+  );
 
   return (
-    <section ref={container} className="relative min-h-screen bg-navy flex items-center pt-20 overflow-hidden">
+    <section
+      ref={containerRef}
+      className="relative min-h-screen bg-gradient-to-b from-[#060C1A] via-navy to-[#0A1628] flex items-center pt-24 pb-16 overflow-hidden"
+    >
+      {/* Particle canvas */}
       <ParticleField />
-      
-      <div className="container-wide relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        {/* Left Side */}
-        <div className="lg:col-span-7">
-          <span className="hero-eyebrow inline-block text-green-data font-bold text-xs tracking-[0.15em] uppercase mb-6">
-            AI-POWERED DEALER PLATFORM
-          </span>
-          <h1 ref={titleRef} className="text-white text-5xl md:text-7xl lg:text-[80px] leading-[1.05] mb-8">
-            <span className="hero-title-line block">The Unfair</span>
-            <span className="hero-title-line block">Advantage for</span>
-            <span className="hero-title-line block">Independent Dealers</span>
+
+      {/* Top radial glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-green-data/8 blur-[180px] rounded-full pointer-events-none" />
+      {/* Bottom left glow */}
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-900/20 blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="container-wide relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center w-full">
+        {/* ── LEFT ── */}
+        <div className="lg:col-span-6 xl:col-span-7">
+          {/* Eyebrow */}
+          <div className="hero-label inline-flex items-center gap-3 mb-8">
+            <div className="h-px w-8 bg-green-data" />
+            <span className="text-green-data font-bold text-[11px] tracking-[0.25em] uppercase">
+              AI-Powered Dealer Platform
+            </span>
+          </div>
+
+          {/* Headline — split into separate spans for GSAP */}
+          <h1 className="font-syne font-bold leading-[1.0] tracking-tight mb-8 overflow-hidden">
+            <span className="hero-line-1 block text-white text-[52px] md:text-[68px] lg:text-[72px] xl:text-[80px]">
+              The Unfair
+            </span>
+            <span className="hero-line-2 block text-white text-[52px] md:text-[68px] lg:text-[72px] xl:text-[80px]">
+              Advantage for
+            </span>
+            <span className="hero-line-3 block text-[52px] md:text-[68px] lg:text-[72px] xl:text-[80px]">
+              <span className="text-green-data">Independent</span> Dealers
+            </span>
           </h1>
-          <p className="hero-subheading text-slate-brand text-lg md:text-xl max-w-xl mb-10 leading-relaxed">
-            ForecourIQ gives UK independent dealers a cinematic website, a smart DMS, 
-            and an AI buying brain that tells you exactly what to buy next — and why.
+
+          {/* Subheading */}
+          <p className="hero-sub text-[17px] md:text-[18px] text-slate-brand leading-relaxed max-w-lg mb-10">
+            ForecourIQ gives UK independent dealers a cinematic website, a smart
+            DMS, and an AI buying brain that tells you exactly what to stock next
+            — and why.
           </p>
-          
-          <div className="hero-ctas flex flex-wrap gap-4 mb-12">
-            <Link href="/demo" className="btn-primary">
+
+          {/* CTAs */}
+          <div className="hero-ctas flex flex-wrap gap-4 mb-10">
+            <Link
+              href="/demo"
+              className="group inline-flex items-center gap-3 bg-green-data text-navy px-8 py-4 rounded-xl font-bold text-sm transition-all duration-300 hover:scale-[1.03] shadow-[0_0_30px_rgba(0,212,170,0.35)]"
+            >
               Start Free Trial
+              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
-            <Link href="/features" className="btn-secondary">
+            <Link
+              href="/features"
+              className="inline-flex items-center gap-3 bg-white/5 border border-white/15 text-white px-8 py-4 rounded-xl font-bold text-sm transition-all duration-300 hover:bg-white/10"
+            >
               See It Live
             </Link>
           </div>
-          
-          <div className="flex flex-wrap gap-8">
-            {[
-              "14-Day Free Trial",
-              "No Lock-in Contracts",
-              "Setup in 48 Hours"
-            ].map((stat, i) => (
-              <div key={i} className="hero-stats flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-green-data" />
-                <span className="text-white/60 text-sm font-medium">{stat}</span>
+
+          {/* Trust pills */}
+          <div className="hero-pills flex flex-wrap gap-6">
+            {["14-Day Free Trial", "No Lock-in Contracts", "Live in 48 Hours"].map((pill) => (
+              <div key={pill} className="flex items-center gap-2.5">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-data shadow-[0_0_6px_rgba(0,212,170,0.8)]" />
+                <span className="text-white/50 text-sm font-medium">{pill}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Right Side */}
-        <div className="lg:col-span-5 relative">
-          <div ref={cardRef} className="glass-card p-6 rounded-xl shadow-[0_0_50px_rgba(0,212,170,0.15)] border-white/10 relative">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-white font-syne text-lg">Market Intelligence</h3>
-              <div className="flex gap-2">
-                <div className="w-3 h-3 rounded-full bg-red-500/20" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/20" />
-                <div className="w-3 h-3 rounded-full bg-green-500/20" />
+        {/* ── RIGHT — Dashboard Card ── */}
+        <div className="lg:col-span-6 xl:col-span-5 relative">
+          <div
+            ref={cardRef}
+            className="relative rounded-2xl overflow-hidden border border-white/10 bg-[#0A1225]/90 backdrop-blur-xl shadow-[0_40px_120px_rgba(0,0,0,0.6),0_0_60px_rgba(0,212,170,0.08)]"
+          >
+            {/* Card header bar */}
+            <div className="flex items-center justify-between px-5 py-4 border-b border-white/8 bg-white/3">
+              <div className="flex items-center gap-2.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
+                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
+                <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-data animate-pulse" />
+                <span className="text-green-data text-[10px] font-bold uppercase tracking-widest">
+                  AI Command Centre — Live
+                </span>
               </div>
             </div>
-            
-            <div className="space-y-4">
-              <div className="overflow-hidden rounded-lg border border-white/5">
-                <table className="w-full text-left text-xs">
-                  <thead className="bg-white/5 text-white/40 uppercase tracking-wider font-bold">
-                    <tr>
-                      <th className="p-3">Vehicle</th>
-                      <th className="p-3">Market</th>
-                      <th className="p-3">AI Suggest</th>
-                      <th className="p-3">Action</th>
+
+            {/* Stat row */}
+            <div className="grid grid-cols-3 divide-x divide-white/8 border-b border-white/8">
+              {[
+                { label: "Portfolio Score", value: "87/100", color: "text-green-data" },
+                { label: "Avg Days to Sell", value: "16.2d", color: "text-white" },
+                { label: "Opportunities", value: "8 New", color: "text-green-data" },
+              ].map((stat) => (
+                <div key={stat.label} className="px-4 py-3 text-center">
+                  <p className="text-white/30 text-[9px] uppercase tracking-widest mb-1 font-bold">{stat.label}</p>
+                  <p className={`font-mono font-bold text-sm ${stat.color}`}>{stat.value}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Table */}
+            <div className="p-4">
+              <div className="text-[10px] font-bold text-white/25 uppercase tracking-widest mb-3 px-1">
+                AI Buying Intelligence — East Midlands
+              </div>
+              <div className="rounded-xl overflow-hidden border border-white/8">
+                <table className="w-full text-left">
+                  <thead>
+                    <tr className="bg-white/3 border-b border-white/8">
+                      <th className="px-3 py-2.5 text-[9px] font-bold text-white/30 uppercase tracking-widest">Vehicle</th>
+                      <th className="px-3 py-2.5 text-[9px] font-bold text-white/30 uppercase tracking-widest text-right">Market</th>
+                      <th className="px-3 py-2.5 text-[9px] font-bold text-white/30 uppercase tracking-widest text-right">AI Price</th>
+                      <th className="px-3 py-2.5 text-[9px] font-bold text-white/30 uppercase tracking-widest text-right">Signal</th>
                     </tr>
                   </thead>
-                  <tbody className="text-white/80">
-                    <tr className="border-t border-white/5 bg-green-data/5">
-                      <td className="p-3 font-bold">BMW 320d M Sport</td>
-                      <td className="p-3">£18,450</td>
-                      <td className="p-3 text-green-data">£17,900</td>
-                      <td className="p-3">
-                        <span className="bg-green-data text-navy px-2 py-1 rounded-sm text-[10px] font-black animate-pulse-glow">BUY</span>
-                      </td>
-                    </tr>
-                    <tr className="border-t border-white/5">
-                      <td className="p-3 font-bold">Audi A3 S Line</td>
-                      <td className="p-3">£21,200</td>
-                      <td className="p-3">£20,800</td>
-                      <td className="p-3"><span className="text-white/20">HOLD</span></td>
-                    </tr>
-                    <tr className="border-t border-white/5">
-                      <td className="p-3 font-bold">VW Golf GTI</td>
-                      <td className="p-3">£24,500</td>
-                      <td className="p-3">£23,900</td>
-                      <td className="p-3"><span className="text-white/20">HOLD</span></td>
-                    </tr>
+                  <tbody className="divide-y divide-white/5">
+                    {TABLE_DATA.map((row, i) => (
+                      <tr
+                        key={i}
+                        className={`transition-colors ${row.hot ? "bg-green-data/5" : "hover:bg-white/3"}`}
+                      >
+                        <td className="px-3 py-2.5">
+                          <p className="text-white font-bold text-xs">{row.vehicle}</p>
+                          <p className="text-white/30 text-[9px]">{row.year} · {row.days}d avg</p>
+                        </td>
+                        <td className="px-3 py-2.5 text-right font-mono text-xs text-white/60">{row.market}</td>
+                        <td className="px-3 py-2.5 text-right font-mono text-xs text-green-data font-bold">{row.ai}</td>
+                        <td className="px-3 py-2.5 text-right">
+                          {row.action === "BUY" ? (
+                            <span className="inline-block bg-green-data text-navy text-[9px] font-black px-2 py-1 rounded-md animate-pulse-glow">
+                              BUY
+                            </span>
+                          ) : (
+                            <span className="inline-block text-white/20 text-[9px] font-bold">HOLD</span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
-              
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-white/5 p-4 rounded-lg">
-                  <span className="text-white/40 text-[10px] block mb-1">LOCAL DEMAND</span>
-                  <span className="text-green-data text-xl font-bold">HIGH</span>
+
+              {/* Bottom metrics */}
+              <div className="grid grid-cols-2 gap-3 mt-3">
+                <div className="bg-green-data/8 border border-green-data/15 rounded-xl px-4 py-3">
+                  <p className="text-green-data/60 text-[9px] uppercase tracking-widest font-bold mb-1">Local Demand</p>
+                  <p className="text-green-data font-bold text-lg font-mono">HIGH</p>
                 </div>
-                <div className="bg-white/5 p-4 rounded-lg">
-                  <span className="text-white/40 text-[10px] block mb-1">DAYS TO SELL</span>
-                  <span className="text-white text-xl font-bold">14.2</span>
+                <div className="bg-white/3 border border-white/8 rounded-xl px-4 py-3">
+                  <p className="text-white/30 text-[9px] uppercase tracking-widest font-bold mb-1">Avg Margin</p>
+                  <p className="text-white font-bold text-lg font-mono">£3,840</p>
                 </div>
               </div>
             </div>
           </div>
-          
-          {/* Decorative elements */}
-          <div className="absolute -top-10 -right-10 w-32 h-32 bg-green-data/10 blur-3xl rounded-full" />
-          <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-blue-500/10 blur-3xl rounded-full" />
+
+          {/* Floating glow behind card */}
+          <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-green-data/6 blur-[100px] rounded-full pointer-events-none" />
         </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30 animate-bounce">
+        <div className="w-px h-10 bg-white/40" />
+        <span className="text-white text-[10px] uppercase tracking-widest font-bold">Scroll</span>
       </div>
     </section>
   );
