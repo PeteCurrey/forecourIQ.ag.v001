@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #0D1B3E;
+}
+
+@layer base {
+  body {
+    @apply bg-white text-navy font-inter selection:bg-green-data selection:text-navy;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-syne font-bold tracking-tight;
+  }
+}
+
+@layer components {
+  .container-wide {
+    @apply max-w-[1440px] mx-auto px-6 md:px-12;
+  }
+  
+  .glass-card {
+    @apply bg-navy/80 backdrop-blur-md border border-white/10;
+  }
+
+  .btn-primary {
+    @apply bg-green-data text-navy px-8 py-4 rounded-none font-bold transition-transform hover:scale-[1.02] active:scale-[0.98] inline-flex items-center justify-center;
+  }
+
+  .btn-secondary {
+    @apply border-2 border-white text-white px-8 py-4 rounded-none font-bold transition-colors hover:bg-white hover:text-navy active:scale-[0.98] inline-flex items-center justify-center;
+  }
+}
+
+/* Lenis CSS */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
