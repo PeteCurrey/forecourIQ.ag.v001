@@ -30,30 +30,50 @@ export default function ProblemSection() {
       scrollTrigger: {
         trigger: container.current,
         start: "top 80%",
-        end: "bottom 20%",
+        end: "bottom 30%",
         scrub: 1,
       },
-      y: 100,
+      y: 80,
       opacity: 0,
-      stagger: 0.2,
+      stagger: 0.15,
       ease: "power2.out",
     });
   }, { scope: container });
 
   return (
-    <section ref={container} className="py-32 bg-white">
-      <div className="container-wide">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8 lg:gap-16">
+    <section ref={container} className="py-32 bg-navy/50 relative overflow-hidden">
+      {/* Subtle grid texture */}
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `repeating-linear-gradient(0deg, #fff 0, #fff 1px, transparent 1px, transparent 80px), repeating-linear-gradient(90deg, #fff 0, #fff 1px, transparent 1px, transparent 80px)`,
+        }}
+      />
+
+      <div className="container-wide relative z-10">
+        <div className="text-center mb-20">
+          <span className="inline-block text-green-data font-bold text-xs tracking-[0.2em] uppercase mb-4">
+            The Reality for Most Dealers
+          </span>
+          <h2 className="text-4xl md:text-5xl text-white max-w-3xl mx-auto leading-[1.1]">
+            Three problems killing your margin right now.
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {problems.map((p, i) => (
             <div key={i} className="problem-card relative group">
-              <div className="font-syne text-[140px] leading-none font-black text-green-data/10 absolute -top-12 -left-4 select-none z-0">
+              {/* Large background number */}
+              <div className="font-syne text-[120px] leading-none font-black text-green-data/8 absolute -top-8 -left-4 select-none z-0 pointer-events-none">
                 {p.num}
               </div>
-              <div className="relative z-10">
-                <h3 className="text-2xl md:text-3xl mb-6 text-navy">
+              {/* Card */}
+              <div className="relative z-10 bg-white/5 border border-white/10 rounded-2xl p-8 h-full hover:border-green-data/30 hover:bg-white/8 transition-all duration-500 group-hover:shadow-[0_0_40px_rgba(0,212,170,0.05)]">
+                <div className="w-8 h-0.5 bg-green-data mb-6" />
+                <h3 className="text-xl md:text-2xl mb-5 text-white font-syne font-bold leading-snug">
                   {p.title}
                 </h3>
-                <p className="text-slate-brand leading-relaxed">
+                <p className="text-slate-brand leading-relaxed text-[15px]">
                   {p.text}
                 </p>
               </div>

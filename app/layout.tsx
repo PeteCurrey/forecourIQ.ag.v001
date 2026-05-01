@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Syne } from "next/font/google";
+import { Inter, Syne, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -18,6 +18,13 @@ const syne = Syne({
   display: "swap",
 });
 
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+  display: "swap",
+});
+
+
 export const metadata: Metadata = {
   title: "ForecourIQ | The Unfair Advantage for Independent Dealers",
   description: "UK SaaS platform for independent car dealers combining a custom dealer website, a cloud DMS/CRM, and an AI-powered Buying Command Centre.",
@@ -30,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${syne.variable}`}>
+    <html lang="en" className={`${inter.variable} ${syne.variable} ${geistMono.variable}`}>
       <body className="antialiased">
         <GSAPProvider>
           <LenisProvider>

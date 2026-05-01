@@ -4,6 +4,7 @@ module.exports = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './lib/**/*.{js,ts,jsx,tsx,mdx}',
+    './content/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
@@ -13,7 +14,7 @@ module.exports = {
           50: '#1a2d5a',
           100: '#162450',
           200: '#0D1B3E',
-          900: '#070e20',
+          900: '#070C18',
         },
         dms: {
           bg: '#0A0F1C',
@@ -39,10 +40,11 @@ module.exports = {
         mono: ['var(--font-geist-mono)', 'monospace'],
       },
       animation: {
-        'marquee': 'marquee 40s linear infinite',
-        'marquee-reverse': 'marquee-reverse 40s linear infinite',
-        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
-        'float': 'float 6s ease-in-out infinite',
+        marquee: 'marquee 50s linear infinite',
+        'marquee-reverse': 'marquee-reverse 50s linear infinite',
+        'pulse-glow': 'pulse-glow 2.5s ease-in-out infinite',
+        float: 'float 6s ease-in-out infinite',
+        'fade-up': 'fade-up 0.6s ease-out forwards',
       },
       keyframes: {
         marquee: {
@@ -54,17 +56,26 @@ module.exports = {
           '100%': { transform: 'translateX(0%)' },
         },
         'pulse-glow': {
-          '0%, 100%': { boxShadow: '0 0 8px rgba(0,212,170,0.6)', opacity: '1' },
-          '50%': { boxShadow: '0 0 24px rgba(0,212,170,1)', opacity: '0.85' },
+          '0%, 100%': { boxShadow: '0 0 8px rgba(0,212,170,0.5)', opacity: '1' },
+          '50%': { boxShadow: '0 0 28px rgba(0,212,170,0.9)', opacity: '0.85' },
         },
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-10px)' },
+          '50%': { transform: 'translateY(-12px)' },
+        },
+        'fade-up': {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
         },
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-mesh': 'radial-gradient(at 40% 20%, hsla(212,100%,16%,1) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(189,100%,56%,0.05) 0px, transparent 50%), radial-gradient(at 0% 50%, hsla(355,100%,93%,0.03) 0px, transparent 50%)',
+        'gradient-mesh':
+          'radial-gradient(at 40% 20%, hsla(212,100%,16%,1) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(172,100%,41%,0.06) 0px, transparent 50%), radial-gradient(at 0% 50%, hsla(217,100%,14%,1) 0px, transparent 50%)',
+      },
+      boxShadow: {
+        'green-glow': '0 0 40px rgba(0,212,170,0.2)',
+        'green-glow-lg': '0 0 80px rgba(0,212,170,0.15)',
       },
     },
   },
